@@ -3,6 +3,11 @@
 import shutil
 from distutils.core import setup
 
+try:
+    from distutils.command.build_scripts import build_scripts_2to3 as build_scripts
+except ImportError:
+    from distutils.command.build_scripts import build_scripts
+
 shutil.copyfile('so.py', 'so')
 
 setup(name='Stack Overflow',
@@ -11,5 +16,6 @@ setup(name='Stack Overflow',
       author='Mike Pedersen',
       author_email='mipede12@student.aau.dk',
       scripts=['so'],
-      license='GPL v3'
+      license='GPL v3',
+      cmdclass = {'build_scripts': build_scripts}
      )
