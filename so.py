@@ -18,7 +18,7 @@ def stackquery(path, query):
        'gzip' in response.info()['Content-Encoding']:
         data = zlib.decompress(data, zlib.MAX_WBITS | 32)
     
-    return json.loads(data)
+    return json.loads(data.decode(encoding = 'UTF-8'))
 
 def stringJoin(words, sep = ' '):
     if sys.version_info[0] < 3:
