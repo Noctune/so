@@ -20,6 +20,12 @@ def stackquery(path, query):
     
     return json.loads(data)
 
+def stringJoin(words, sep = ' '):
+    if sys.version_info[0] < 3:
+        return string.join(words, sep)
+    else:
+        return sep.join(words)
+
 class StackHandler(BaseHTTPRequestHandler):
     def write(self, string):
         self.wfile.write(string.encode('utf8'))
@@ -103,6 +109,6 @@ if __name__ == '__main__':
     thread.start_new_thread(server.serve_forever, ())
     
     query = '' if len(sys.argv) == 1 else \
-            'search?q=' + string.join(map(quote, sys.argv[1:]), '+')
+            'search?q=' + stringJoin(map(quote, sys.argv[1:]), '+')
     
     subprocess.check_call(['lynx', 'localhost:' + str(port) + '/' + query])
