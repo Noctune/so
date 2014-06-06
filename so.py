@@ -1,6 +1,6 @@
 #!/usr/bin/python
 
-import sys, zlib, json, string, threading, subprocess, time, locale, cgi
+import sys, zlib, json, string, thread, subprocess, time, locale, cgi
 from urllib import urlencode, quote
 from urllib2 import Request, urlopen
 from urlparse import urlparse, parse_qsl
@@ -100,9 +100,9 @@ if __name__ == '__main__':
     port = 8484
     
     server = HTTPServer(('localhost', port), StackHandler)
-    threading.Thread(target = server.serve_forever).start()
+    thread.start_new_thread(server.serve_forever, ())
     
     query = '' if len(sys.argv) == 1 else \
             'search?q=' + string.join(map(quote, sys.argv[1:]), '+')
     
-    subprocess.check_call(['lynx', 'localhost:' + port + '/' + query])
+    subprocess.check_call(['lynx', 'localhost:' + str(port) + '/' + query])
